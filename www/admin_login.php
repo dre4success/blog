@@ -1,5 +1,5 @@
 <?php
-		
+		session_start();
 	# include db connection
 	include 'includes/db.php';
 
@@ -30,10 +30,10 @@
 
 			$chk = Tools::adminLogin($conn, $clean);
 
-			$_SESSION['id'] = $chk[1]['admin_id'];
-			$_SESSION['fname'] = $chk[1]['firstname'];
+			$_SESSION['id'] = $chk['admin_id'];
+			$_SESSION['fname'] = $chk['firstname'];
 
-			Tools::redirect("home.php");
+			Tools::redirect("add_post.php");
 		}
 	}
 ?>
