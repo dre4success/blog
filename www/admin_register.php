@@ -53,6 +53,8 @@
 			$clean['password'] = password_hash($clean['password'], PASSWORD_BCRYPT);
 
 			Tools::doAdminRegister($conn, $clean);
+
+			Tools::redirect("admin_login.php?msg=You have been successfully registered.");
 		}
 	}
 			
@@ -108,5 +110,5 @@
 			<input type="submit" name="register" value="register">
 		</form>
 
-		<h4 class="jumpto">Have an account? <a href="login.php">login</a></h4>
+		<h4 class="jumpto">Have an account? <a href="admin_login.php">login</a></h4>
 	</div>
