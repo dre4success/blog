@@ -64,24 +64,43 @@
 		<hr>
 		<form id="register"  action ="admin_register.php" method ="POST">
 			<div>
+				<?php 
+						$display = Tools::DisplayErrors($errors, 'fname');
+						echo $display;
+				?>
 				<label>first name:</label>
 				<input type="text" name="fname" placeholder="first name">
 			</div>
 			<div>
+				<?php 
+						$display = Tools::DisplayErrors($errors, 'lname');
+						echo $display;
+				?>
 				<label>last name:</label>	
 				<input type="text" name="lname" placeholder="last name">
 			</div>
 
 			<div>
+				<?php 
+						$display = Tools::DisplayErrors($errors, 'email');
+						echo $display;
+				?>
 				<label>email:</label>
 				<input type="text" name="email" placeholder="email">
 			</div>
 			<div>
+				<?php 
+						$display = Tools::DisplayErrors($errors, 'password');
+						echo $display;
+				?>
 				<label>password:</label>
 				<input type="password" name="password" placeholder="password">
 			</div>
- 
 			<div>
+				<?php 
+						$display = Tools::DisplayErrors($errors, 'pword');
+						echo $display;
+				?>
 				<label>confirm password:</label>	
 				<input type="password" name="pword" placeholder="password">
 			</div>

@@ -30,4 +30,17 @@
 					];
 			$stmt->execute($data);
 		}
-	}
+
+		public static function DisplayErrors($key, $value){
+
+			$result = "";
+
+			if(isset($key[$value])){
+				$result = '<span class="err">'. $key[$value]. '</span>';
+			}
+
+			return $result;
+		}
+
+
+}
