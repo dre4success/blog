@@ -6,6 +6,9 @@
 	# include header
 	include 'includes/header.php';
 
+	# include function
+	include 'includes/functions.php';
+
 	# error caching
 	$errors = [];
 
@@ -22,6 +25,10 @@
 
 		if(empty($_POST['email'])){
 			$errors['email'] = "Please Enter Your Email";
+		}
+
+		if(Tools::doesEmailExist($conn, $_POST['email'])){
+			$errors['email'] = "Email Already Exists";
 		}
 
 		if(empty($_POST['password'])){
@@ -43,7 +50,7 @@
 	<div class="wrapper">
 		<h1 id="register-label">Admin Register</h1>
 		<hr>
-		<form id="register"  action ="register.php" method ="POST">
+		<form id="register"  action ="admin_register.php" method ="POST">
 			<div>
 				<label>first name:</label>
 				<input type="text" name="fname" placeholder="first name">
