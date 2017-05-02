@@ -54,7 +54,7 @@
 
 			Tools::doAdminRegister($conn, $clean);
 
-			Tools::redirect("admin_login.php?msg=You have been successfully registered.");
+			Tools::redirect("admin_login.php?msg=You have been successfully registered. Please Login");
 		}
 	}
 			
