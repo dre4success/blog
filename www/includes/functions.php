@@ -98,4 +98,34 @@
 			header("Location:admin_login.php");
 		}
 	}
+
+	public static function AdminName($dbconn, $id){
+		$stmt = $dbconn->prepare("SELECT firstname FROM admin WHERE admin_id=:ai");
+		$stmt->bindParam(':ai', $id);
+		$stmt->execute();
+
+		$row = $stmt->fetch(PDO::FETCH_BOTH);
+
+		return $row;
+	}
+
+	public static function viewPost($dbconn){
+
+		$result = "";
+
+		$stmt = $dbconn->prepare("SELECT * FROM post");
+		$stmt->execute();
+
+		while($row = $stmt->fetch(PDO::FETCH_BOTH)){
+
+			$row1 = Tools::AdminName($dbconn, $row['admin_id']);
+
+			$result .= '<tr><td>'.$row[2].'</td><td>'.$row1[0].'</td><td>'.$row[3].'</td><td>'.$row[4].
+						'</td><td><a href="edit_post.php?book_id='.$row[1].'">edit</a></td>
+						<td><a href="delete_post.php?book_id='.$row[1].'">delete</a></td></tr>';
+
+		}
+
+		return $result;
+	}
 }
