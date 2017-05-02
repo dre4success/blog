@@ -42,15 +42,15 @@
 			return $result;
 		}
 
-		public function redirect($loca){
+		public static function redirect($loca){
 			header("Location: ".$loca);
 		}
 
-		public function adminLogin($dbconn, $input){
+		public static function adminLogin($dbconn, $input){
 
 			$result = [];
 
-			$stmt = $dbconn->prepare("SELECT admin_id, hash, firstname FROM admin WHERE email=:em");
+			$stmt = $dbconn->prepare("SELECT admin_id, firstname, hash FROM admin WHERE email=:em");
 			$stmt->bindParam(':em', $input['email']);
 			$stmt->execute();
 
@@ -70,4 +70,32 @@
 
 			return $result;
 		}
+
+		public static function culNav($page){
+
+		$curPage = basename($_SERVER['SCRIPT_FILENAME']);
+
+		if($curPage == $page) {
+			echo 'class="selected"';
+		}
+	}
+
+	public static function insertIntoPost($dbconn, $input, $adminID){
+
+		$stmt = $dbconn->prepare("INSERT INTO post(admin_id, title, body, date)
+								VALUES(:a, :t, :b, now())");
+		$data = [
+					':a'=> $adminID,
+					':t'=> $input['title'],
+					':b'=> $input['content']
+				];
+		$stmt->execute($data);
+	}
+
+	public static function LoginCheck() {
+		if(!isset($_SESSION['id'])) {
+
+			header("Location:admin_login.php");
+		}
+	}
 }
