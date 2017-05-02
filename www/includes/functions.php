@@ -45,4 +45,29 @@
 		public function redirect($loca){
 			header("Location: ".$loca);
 		}
+
+		public function adminLogin($dbconn, $input){
+
+			$result = [];
+
+			$stmt = $dbconn->prepare("SELECT admin_id, hash, firstname FROM admin WHERE email=:em");
+			$stmt->bindParam(':em', $input['email']);
+			$stmt->execute();
+
+			$row = $stmt->fetch(PDO::FETCH_BOTH);
+			$count = $stmt->rowCount();
+
+			if($count != 1 || password_verify($input['password'], $row['hash'])){
+
+				Tools::redirect("admin_login.php?msge=invalid username or password");
+				exit();
+
+			} else
+			{
+				$result = true;
+				$result = $row;
+			}
+
+			return $result;
+		}
 }
