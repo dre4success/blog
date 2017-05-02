@@ -8,6 +8,34 @@
 
 	# error caching
 	$errors = [];
+
+	# form validation
+	if(array_key_exists('register', $_POST)){
+
+		if(empty($_POST['fname'])){
+			$errors['fname'] = "Please Enter Your Firstname";
+		}
+
+		if(empty($_POST['lname'])){
+			$errors['lname'] = "Please Enter Your Lastname";
+		}
+
+		if(empty($_POST['email'])){
+			$errors['email'] = "Please Enter Your Email";
+		}
+
+		if(empty($_POST['password'])){
+			$errors['password'] = "Please Enter Your Password";
+		}
+
+		if(empty($_POST['pword'])){
+			$errors['pword'] = "Please Confirm Your Password";
+		}
+
+		if($_POST['pword'] != $_POST['password']){
+			$errors['pword'] = "Password Does not match";
+		}
+	}
 			
 ?>
 
