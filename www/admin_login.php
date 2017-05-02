@@ -44,8 +44,8 @@
 		<form id="register"  action ="admin_login.php" method ="POST">
 			<div>
 				<?php
-					if(isset($_GET['msge']) || isset($_GET['msg']))
-					echo '<span class="err">'. $_GET['msg']. '</span>';
+					if(isset($_GET['msge']))
+					echo '<span class="err">'. $_GET['msge']. '</span>';
 					
 						$display = Tools::DisplayErrors($errors, 'email');
 						echo $display;
@@ -57,7 +57,7 @@
 			<div>
 				<?php
 					if(isset($_GET['msge']))
-					echo '<span class="err">'. $_GET['msg']. '</span>';
+					echo '<span class="err">'. $_GET['msge']. '</span>';
 					
 					$display = Tools::DisplayErrors($errors, 'password');
 					echo $display;
