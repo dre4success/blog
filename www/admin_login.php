@@ -24,6 +24,17 @@
 		if(empty($_POST['password'])){
 			$errors['password'] = "Please Enter Your Password";
 		}
+
+		if(empty($errors)){
+			$clean = array_map('trim', $_POST);
+
+			$chk = Tools::adminLogin($conn, $clean);
+
+			$_SESSION['id'] = $chk[1]['admin_id'];
+			$_SESSION['fname'] = $chk[1]['firstname'];
+
+			Tools::redirect("home.php");
+		}
 	}
 ?>
 
@@ -33,7 +44,7 @@
 		<form id="register"  action ="admin_login.php" method ="POST">
 			<div>
 				<?php
-					if(isset($_GET['msg']))
+					if(isset($_GET['msge']) || isset($_GET['msg']))
 					echo '<span class="err">'. $_GET['msg']. '</span>';
 					
 						$display = Tools::DisplayErrors($errors, 'email');
@@ -45,6 +56,9 @@
 			</div>
 			<div>
 				<?php
+					if(isset($_GET['msge']))
+					echo '<span class="err">'. $_GET['msg']. '</span>';
+					
 					$display = Tools::DisplayErrors($errors, 'password');
 					echo $display;
 				?>
