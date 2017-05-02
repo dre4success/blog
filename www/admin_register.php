@@ -3,6 +3,9 @@
 	# include db connection
 	include 'includes/db.php';
 
+	# page Title
+	$page_title = "Register";
+
 	# include header
 	include 'includes/header.php';
 
@@ -41,6 +44,15 @@
 
 		if($_POST['pword'] != $_POST['password']){
 			$errors['pword'] = "Password Does not match";
+		}
+
+		if(empty($errors)){
+
+			$clean = array_map('trim', $_POST);
+
+			$clean['password'] = password_hash($clean['password'], PASSWORD_BCRYPT);
+
+			Tools::doAdminRegister($conn, $clean);
 		}
 	}
 			

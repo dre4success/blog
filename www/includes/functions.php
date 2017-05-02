@@ -16,4 +16,18 @@
 
 			return $result;
 		}
+
+		public static function doAdminRegister($dbconn, $input){
+
+			$stmt = $dbconn->prepare("INSERT INTO admin(firstname, lastname, email, hash)
+									VALUES(:f, :l, :e, :h)");
+
+			$data = [
+						':f'=> $input['fname'],
+						':l'=> $input['lname'],
+						':e'=> $input['email'],
+						':h'=> $input['password']
+					];
+			$stmt->execute($data);
+		}
 	}
