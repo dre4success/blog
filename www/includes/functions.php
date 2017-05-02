@@ -42,5 +42,7 @@
 			return $result;
 		}
 
-
+		public function redirect($loca){
+			header("Location: ".$loca);
+		}
 }
