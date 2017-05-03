@@ -198,6 +198,8 @@
 					];
 			$stmt->execute($data);
 		}
+
+		
 		public static function ViewPostFrontend($dbconn){
 
 			$result = "";
