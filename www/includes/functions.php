@@ -100,7 +100,7 @@
 	}
 
 	public static function AdminName($dbconn, $id){
-		$stmt = $dbconn->prepare("SELECT firstname FROM admin WHERE admin_id=:ai");
+		$stmt = $dbconn->prepare("SELECT * FROM admin WHERE admin_id=:ai");
 		$stmt->bindParam(':ai', $id);
 		$stmt->execute();
 
@@ -120,12 +120,55 @@
 
 			$row1 = Tools::AdminName($dbconn, $row['admin_id']);
 
-			$result .= '<tr><td>'.$row[2].'</td><td>'.$row1[0].'</td><td>'.$row[3].'</td><td>'.$row[4].
-						'</td><td><a href="edit_post.php?book_id='.$row[1].'">edit</a></td>
-						<td><a href="delete_post.php?book_id='.$row[1].'">delete</a></td></tr>';
+			$result .= '<tr><td>'.$row[2].'</td><td>'.$row1[1].'</td><td>'.$row[3].'</td><td>'.$row[4].
+						'</td><td><a href="edit_post.php?post_id='.$row[0].'">edit</a></td>
+						<td><a href="delete_post.php?post_id='.$row[0].'">delete</a></td></tr>';
 
 		}
 
 		return $result;
 	}
+
+	public static function getPostByID($dbconn, $postID){
+		$stmt = $dbconn->prepare("SELECT * FROM post WHERE post_id=:id");
+			$stmt->bindParam(':id', $postID);
+
+			$stmt->execute();
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+			return $row;
+	}
+
+	public static function editBloggerName($dbconn, $adName) {
+			$statement = $dbconn->prepare("SELECT * FROM admin");
+						$statement->execute();
+
+						$result = "";
+						while($row = $statement->fetch(PDO::FETCH_ASSOC)) { 
+
+							$admin_id = $row['admin_id'];
+							$fname = $row['firstname'];
+
+							#to skip the category_name chosen
+
+							if($fname == $adName) { continue; }
+
+						$result .= "<option value='$admin_id'>$fname</option>";
+					}
+					return $result;
+		}
+
+		public static function updatePost($dbconn, $input){
+
+			$stmt = $dbconn->prepare("UPDATE post SET admin_id=:ai, title=:ti, body=:by WHERE post_id=:pi");
+
+			$data = [
+						':ai'=>$input['name'],
+						':ti'=>$input['title'],
+						':by'=>$input['body'],
+						':pi'=>$input['pi']
+					];
+
+			$stmt->execute($data);
+		}
 }
