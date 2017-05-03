@@ -183,9 +183,9 @@
 			$stmt = $dbconn->prepare("SELECT * FROM post");
 			$stmt->execute();
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		
+			
 			return $row;
-	}
+		}
 
 		public static function insertIntoArchive($dbconn){
 
@@ -197,5 +197,22 @@
 						':da'=>$row1['date']
 					];
 			$stmt->execute($data);
+		}
+		public static function ViewPostFrontend($dbconn){
+
+			$result = "";
+			$stmt = $dbconn->prepare("SELECT admin_id, title, body, DATE_FORMAT(date_post, '%M %e, %Y') AS d FROM post");
+			$stmt->execute();
+			
+			while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+			$row1 = Tools::AdminName($dbconn, $row['admin_id']);
+
+			$result	.= '<h2 class="blog-post-title">'.$row['title'].'</h2>
+            <p class="blog-post-meta">'.$row['d']. " by " .'<a href="#">'.$row1['firstname'].'</a></p>';
+
+            $result .= htmlspecialchars_decode($row['body']);
+			}
+
+			return $result;
 		}
 }
