@@ -12,3 +12,16 @@
 	}
 
 ?>
+	<div class="container">
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+		<div class="blog-post">
+            
+            	<?php
+            			$view = Tools::ViewPostFrontend($conn);
+            			echo $view;
+            	?>
+       </div>
+       </div>
