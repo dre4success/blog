@@ -218,18 +218,17 @@
 			return $result;
 		}
 
+
 		public static function fetchArchive($dbconn){
 
 			$result = "";
 
-			$stmt = $dbconn->prepare("SELECT post_id, DATE_FORMAT(date_post, '%M %Y') AS da FROM archive");
+			$stmt = $dbconn->prepare("SELECT DISTINCT DATE_FORMAT(date_post, '%M %Y') AS da, post_id FROM archive");
 			$stmt->execute();
 
 			while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-
-				$row2 = Tools::getPostByID($dbconn, $row['post_id']);
 		
-				$result .= '<li><a href="#">'.$row['da'].'</a></li>';
+				$result .= '<li><a href="archive.php?post_id='.$row['post_id'].'">'.$row['da'].'</a></li>';
               
 			}	
 
