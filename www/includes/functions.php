@@ -223,15 +223,24 @@
 
 			$result = "";
 
-			$stmt = $dbconn->prepare("SELECT DISTINCT DATE_FORMAT(date_post, '%M %Y') AS da, post_id FROM archive");
+			$stmt = $dbconn->prepare("SELECT DISTINCT DATE_FORMAT(date_post, '%M %Y') AS da, date_post FROM archive");
 			$stmt->execute();
 
 			while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 		
-				$result .= '<li><a href="archive.php?post_id='.$row['post_id'].'">'.$row['da'].'</a></li>';
+				$result .= '<li><a href="archive.php?date='.$row['date_post'].'">'.$row['da'].'</a></li>';
               
 			}	
 
 			return $result;	
 		}
+
+		public static function getPostByDate($dbconn, $date){
+			$stmt = $dbconn->prepare("SELECT * FROM post WHERE date_post=:id");
+			$stmt->bindParam(':id', $date);
+
+			$stmt->execute();
+
+			return $stmt;
+	}		
 }
