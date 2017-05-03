@@ -37,6 +37,7 @@
 			$clean = array_map('trim', $_POST);
 			$clean['content'] = htmlspecialchars($clean['content']);
 			Tools::insertIntoPost($conn, $clean, $id);
+			Tools::insertIntoArchive($conn);
 		}
 	}
 
