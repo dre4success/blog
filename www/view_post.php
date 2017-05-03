@@ -6,7 +6,7 @@ session_start();
 	include 'includes/db.php';
 
 	# page Title
-	$page_title = "Add Post";
+	$page_title = "View Post";
 
 	# include function
 	include 'includes/functions.php';
