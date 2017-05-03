@@ -100,7 +100,7 @@
 	}
 
 	public static function AdminName($dbconn, $id){
-		$stmt = $dbconn->prepare("SELECT * FROM admin WHERE admin_id=:ai");
+		$stmt = $dbconn->prepare("SELECT firstname FROM admin WHERE admin_id=:ai");
 		$stmt->bindParam(':ai', $id);
 		$stmt->execute();
 
@@ -120,7 +120,7 @@
 
 			$row1 = Tools::AdminName($dbconn, $row['admin_id']);
 
-			$result .= '<tr><td>'.$row[2].'</td><td>'.$row1[1].'</td><td>'.$row[3].'</td><td>'.$row[4].
+			$result .= '<tr><td>'.$row[2].'</td><td>'.$row1[0].'</td><td>'.$row[3].'</td><td>'.$row[4].
 						'</td><td><a href="edit_post.php?post_id='.$row[0].'">edit</a></td>
 						<td><a href="delete_post.php?post_id='.$row[0].'">delete</a></td></tr>';
 
@@ -170,5 +170,12 @@
 					];
 
 			$stmt->execute($data);
+		}
+
+		public static function deletePost($dbconn, $input){
+
+			$stmt = $dbconn->prepare("DELETE FROM post WHERE post_id=:pi");
+			$stmt->bindParam(':pi', $input);
+			$stmt->execute();
 		}
 }
