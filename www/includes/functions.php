@@ -82,7 +82,7 @@
 
 	public static function insertIntoPost($dbconn, $input, $adminID){
 
-		$stmt = $dbconn->prepare("INSERT INTO post(admin_id, title, body, date)
+		$stmt = $dbconn->prepare("INSERT INTO post(admin_id, title, body, date_post)
 								VALUES(:a, :t, :b, now())");
 		$data = [
 					':a'=> $adminID,
@@ -190,16 +190,16 @@
 		public static function insertIntoArchive($dbconn){
 
 			$row1 = Tools::getPost($dbconn);
-			$stmt = $dbconn->prepare("INSERT INTO archive(post_id, date) VALUES(:pi, :da)");
+			$stmt = $dbconn->prepare("INSERT INTO archive(post_id, date_post) VALUES(:pi, :da)");
 
 			$data = [
 						':pi'=>$row1['post_id'],
-						':da'=>$row1['date']
+						':da'=>$row1['date_post']
 					];
 			$stmt->execute($data);
 		}
 
-		
+
 		public static function ViewPostFrontend($dbconn){
 
 			$result = "";
@@ -216,5 +216,23 @@
 			}
 
 			return $result;
+		}
+
+		public static function fetchArchive($dbconn){
+
+			$result = "";
+
+			$stmt = $dbconn->prepare("SELECT post_id, DATE_FORMAT(date_post, '%M %Y') AS da FROM archive");
+			$stmt->execute();
+
+			while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+				$row2 = Tools::getPostByID($dbconn, $row['post_id']);
+		
+				$result .= '<li><a href="#">'.$row['da'].'</a></li>';
+              
+			}	
+
+			return $result;	
 		}
 }
