@@ -178,4 +178,24 @@
 			$stmt->bindParam(':pi', $input);
 			$stmt->execute();
 		}
+
+		public static function getPost($dbconn){
+			$stmt = $dbconn->prepare("SELECT * FROM post");
+			$stmt->execute();
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+			return $row;
+	}
+
+		public static function insertIntoArchive($dbconn){
+
+			$row1 = Tools::getPost($dbconn);
+			$stmt = $dbconn->prepare("INSERT INTO archive(post_id, date) VALUES(:pi, :da)");
+
+			$data = [
+						':pi'=>$row1['post_id'],
+						':da'=>$row1['date']
+					];
+			$stmt->execute($data);
+		}
 }
