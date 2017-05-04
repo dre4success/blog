@@ -37,4 +37,8 @@
 
     </div><!-- /.container -->
 
+    <?php 
+    		include 'front_footer.php';
+    ?>
+
        
