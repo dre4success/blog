@@ -122,7 +122,8 @@
 
 			$result .= '<tr><td>'.$row[2].'</td><td>'.$row1[0].'</td><td>'.$row[3].'</td><td>'.$row[4].
 						'</td><td><a href="edit_post.php?post_id='.$row[0].'">edit</a></td>
-						<td><a href="delete_post.php?post_id='.$row[0].'">delete</a></td></tr>';
+						<td><a href="delete_post.php?post_id='.$row[0].'">delete</a></td>
+						<td><a href="archiveback.php?post_id='.$row[0].'">archive</a></td></tr>';
 
 		}
 
@@ -187,16 +188,30 @@
 			return $row;
 		}
 
-		public static function insertIntoArchive($dbconn){
+		private static function checkArchive($dbconn, $pd){
 
-			$row1 = Tools::getPost($dbconn);
+			$stmt = $dbconn->prepare("SELECT * FROM archive WHERE post_id=:pd");
+			$stmt->bindParam(':pd', $pd);
+			$stmt->execute();
+
+			return $stmt;
+		}
+
+		public static function insertIntoArchive($dbconn, $pd, $dt){
+
+			$chk = Tools::checkArchive($dbconn, $pd);
+			$count = $chk->rowCount();
+
+			if($count == 0) {
+
 			$stmt = $dbconn->prepare("INSERT INTO archive(post_id, date_post) VALUES(:pi, :da)");
 
 			$data = [
-						':pi'=>$row1['post_id'],
-						':da'=>$row1['date_post']
+						':pi'=>$pd,
+						':da'=>$dt
 					];
 			$stmt->execute($data);
+			}
 		}
 
 
