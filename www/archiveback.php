@@ -20,7 +20,7 @@ session_start();
 	}
 	$item = Tools::getPostByID($conn, $pID);
 
-	Tools::insertIntoArchive($conn, $item['post_id'], $item['date_post']);
+	Tools::insertIntoArchive($conn, $item['post_id'], $item['arch_date']);
 
 	Tools::redirect("view_post.php");
 
