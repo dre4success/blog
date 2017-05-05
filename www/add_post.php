@@ -39,7 +39,7 @@
 
 			Tools::insertIntoPost($conn, $clean, $id);
 			
-			Tools::insertIntoArchive($conn);
+			
 		}
 	}
 
