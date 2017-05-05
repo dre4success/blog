@@ -77,17 +77,20 @@
 
 		if($curPage == $page) {
 			echo 'class="selected"';
+			}
 		}
-	}
 
 	public static function insertIntoPost($dbconn, $input, $adminID){
 
-		$stmt = $dbconn->prepare("INSERT INTO post(admin_id, title, body, date_post)
-								VALUES(:a, :t, :b, now())");
+		$date = date("Y-m-00");
+
+		$stmt = $dbconn->prepare("INSERT INTO post(admin_id, title, body, date_post, arch_date)
+								VALUES(:a, :t, :b, now(), :d)");
 		$data = [
 					':a'=> $adminID,
 					':t'=> $input['title'],
-					':b'=> $input['content']
+					':b'=> $input['content'],
+					':d'=> $date
 				];
 		$stmt->execute($data);
 	}
@@ -204,7 +207,7 @@
 
 			if($count == 0) {
 
-			$stmt = $dbconn->prepare("INSERT INTO archive(post_id, date_post) VALUES(:pi, :da)");
+			$stmt = $dbconn->prepare("INSERT INTO archive(post_id, arch_date) VALUES(:pi, :da)");
 
 			$data = [
 						':pi'=>$pd,
@@ -238,12 +241,12 @@
 
 			$result = "";
 
-			$stmt = $dbconn->prepare("SELECT DISTINCT DATE_FORMAT(date_post, '%M %Y') AS da, date_post FROM archive");
+			$stmt = $dbconn->prepare("SELECT DISTINCT DATE_FORMAT(arch_date, '%M %Y') AS da, arch_date FROM archive");
 			$stmt->execute();
 
 			while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 		
-				$result .= '<li><a href="archive.php?date='.$row['date_post'].'">'.$row['da'].'</a></li>';
+				$result .= '<li><a href="archive.php?date='.$row['arch_date'].'">'.$row['da'].'</a></li>';
               
 			}	
 
@@ -251,7 +254,7 @@
 		}
 
 		public static function getPostByDate($dbconn, $date){
-			$stmt = $dbconn->prepare("SELECT * FROM post WHERE date_post=:id");
+			$stmt = $dbconn->prepare("SELECT * FROM post WHERE arch_date=:id");
 			$stmt->bindParam(':id', $date);
 
 			$stmt->execute();
