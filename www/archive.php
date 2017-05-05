@@ -36,12 +36,13 @@
             <p class="blog-post-meta"><?php echo $row['date_post'] ?> by <a href="#"><?php echo $row1['firstname']; ?></a></p>
 
             <?php echo htmlspecialchars_decode($row['body']); ?>
-       </div>
-       </div>
+       
 
        		<?php } ?>
-       	</div>
-
+       		</div>
+       		</div>
+       		</div>
+       		
        		<nav class="blog-pagination">
             <a class="btn btn-outline-primary" href="#">Older</a>
             <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
@@ -54,4 +55,4 @@
        	<?php 
 
     		include 'front_footer.php';
-    	?>
+    	?>	
